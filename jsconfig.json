@@ -1,0 +1,10 @@
+//step2
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "#*": ["src/*"]
+    }
+  }, 
+  "include": ["src"]
+}
