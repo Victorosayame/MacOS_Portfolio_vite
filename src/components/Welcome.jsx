@@ -19,7 +19,7 @@ const FONT_WEIGHTS = {
 
 //step8 create a setupTextHover function that takes in a container element and a type (either "subtitle" or "title"). This function sets up an event listener for mouse movements within the container, calculating the distance of the mouse from each character and adjusting the font weight of each character accordingly. The animateLetter function uses gsap to smoothly transition the font weight of each character based on the calculated intensity, creating an interactive and visually appealing hover effect on the welcome page text.
 const setupTextHover = (container, type) => {
-  if(!container) return;
+  if(!container) return () => {};
 
   const letters = container.querySelectorAll("span");
   const { min, max, default: base } = FONT_WEIGHTS[type];
