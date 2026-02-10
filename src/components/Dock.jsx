@@ -1,6 +1,7 @@
 //step10 create a Dock component that will serve as the dock for the macOS portfolio website. This component will be responsible for displaying application icons and providing quick access to various sections of the portfolio, similar to the dock functionality found in macOS.
 
 import { dockApps } from "#constants";
+import useWindowStore from "#store/window";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import {  useRef } from "react";
@@ -10,8 +11,27 @@ import { Tooltip } from "react-tooltip";
 const Dock = () => {
   //step11 define a new ref hook
   const dockRef = useRef(null);
+  //step15
+  const { openWindow, closeWindow, windows } = useWindowStore();
 
-  const toogleApp = (app) => {}
+  const toggleApp = (app) => {
+    //step15
+    if(!app.canOpen) return () => {};
+    const window = windows[app.id];
+
+    if(!window) {
+      console.error(`Window not found for app: ${app.id}`)
+      return;
+    }
+
+    if(window.isOpen) {
+      closeWindow(app.id);
+    } else {
+      openWindow(app.id);
+    }
+
+    console.log(windows);
+  }
 
   //step13 use the useGSAP hook to create an animation effect for the dock icons when they are clicked. This will add a dynamic and interactive element to the dock, making it more engaging for users as they interact with the application icons.
   useGSAP(() => {
@@ -74,7 +94,7 @@ const Dock = () => {
             data-tooltip-content={name} 
             data-tooltip-delay-show={150} 
             disabled={!canOpen} 
-            onClick={() => toogleApp({ id, canOpen })}>
+            onClick={() => toggleApp({ id, canOpen })}>
               <img 
                 src={`/images/${icon}`}
                 alt={name}
