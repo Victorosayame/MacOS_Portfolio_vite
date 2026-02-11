@@ -1,4 +1,10 @@
-import { Dock, Navbar, Welcome } from "#components";
+import { Dock, Navbar, Terminal, Welcome } from "#components";
+//step17
+import gsap from "gsap";
+import { Draggable } from "gsap/Draggable";
+
+
+gsap.registerPlugin(Draggable);
 
 const App = () => {
   return (
@@ -6,6 +12,9 @@ const App = () => {
       <Navbar />
       <Welcome />
       <Dock />
+
+
+      <Terminal />
     </main>
   )
 }
