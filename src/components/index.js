@@ -9,6 +9,8 @@ import Finder from "#windows/Finder";
 import Text from "#windows/Text";
 import Image from "#windows/Image";
 import Contact from "#windows/Contact";
+import Home from "./Home";
+import Photo from "#windows/Photo";
 
 export {
   Navbar,
@@ -22,4 +24,6 @@ export {
   Text,
   Image,
   Contact,
+  Home,
+  Photo,
 }
