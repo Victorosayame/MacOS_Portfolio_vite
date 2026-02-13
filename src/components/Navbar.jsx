@@ -1,10 +1,13 @@
 import dayjs from 'dayjs'
 import { navIcons, navLinks } from '#constants'
+import useWindowStore from '#store/window'
 
 
 //step3: Create a Navbar component that includes the logo, navigation links, icons, and current date/time. Use the dayjs library to format the date and time display. The component is structured with two main sections: one for the logo and navigation links, and another for the icons and date/time display. The navigation links and icons are rendered dynamically from the imported constants, allowing for easy updates in the future.
 
 const Navbar = () => {
+  //step24 open window functionality and add onclick funcionality to navlinks as a quick link to resume,project or contact
+  const { openWindow }  = useWindowStore();
   return (
     <nav>
       <div>
@@ -15,8 +18,8 @@ const Navbar = () => {
         <p className='font-bold'>Victor's Portfolio</p>
 
         <ul>
-          {navLinks.map(({id, name}) => (
-            <li key={id}>
+          {navLinks.map(({id, name, type}) => (
+            <li key={id} onClick={() => openWindow(type)}>
               <p>{name}</p>
             </li>
           ))}
