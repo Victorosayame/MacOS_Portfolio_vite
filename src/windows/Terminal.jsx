@@ -1,58 +1,75 @@
-//step18
-import { WindowControls } from '#components';
-import { techStack } from '#constants';
-import WindowWrapper from '#hoc/WindowWrapper'
-import { Check, Flag } from 'lucide-react';
-import React from 'react'
+/**
+ * STEP 18: Terminal Window - Tech Stack Display
+ * ===============================================
+ * Displays the technology stack used in the portfolio in a terminal-style interface:
+ * - Simulates a command line showing "tech stack" command output
+ * - Organizes technologies by category (Frontend, Backend, Design, etc.)
+ * - Shows with check marks (✓) for successful "loading"
+ * - Displays render time and load success percentage at bottom
+ *
+ * Components:
+ * - WindowControls for close/minimize/maximize buttons
+ * - Dynamic tech stack data from constants
+ * - Terminal-style styling with monospace text
+ *
+ * Purpose: Quickly showcase technical skills and tools used
+ */
+import { WindowControls } from "#components";
+import { techStack } from "#constants";
+import WindowWrapper from "#hoc/WindowWrapper";
+import { Check, Flag } from "lucide-react";
+import React from "react";
 
 const Terminal = () => {
   return (
     <>
-      <div id='window-header'>
+      <div id="window-header">
         <WindowControls target="terminal" />
         <h2>Tech Stack</h2>
       </div>
 
-      <div className='techstack'>
+      <div className="techstack">
         <p>
-          <span className='font-bold'>
-            @Victor % </span>
+          <span className="font-bold">@Victor % </span>
           show tech stack
         </p>
 
-        <div className='label'>
-          <p className='w-32'>Category</p>
+        <div className="label">
+          <p className="w-32">Category</p>
           <p>Technologies</p>
         </div>
-        
-        <ul className='content'>
+
+        <ul className="content">
           {techStack.map(({ category, items }) => (
-            <li key={category} className='flex items-center'>
-              <Check className='check' size={20} />
+            <li key={category} className="flex items-center">
+              <Check className="check" size={20} />
               <h3>{category}</h3>
               <ul>
                 {items.map((item, i) => (
-                  <li key={i}>{item}{i < items.length -1 ? "," : ""}</li>
+                  <li key={i}>
+                    {item}
+                    {i < items.length - 1 ? "," : ""}
+                  </li>
                 ))}
               </ul>
             </li>
           ))}
         </ul>
 
-        <div className='footnote'>
+        <div className="footnote">
           <p>
             <Check size={20} /> 5 of 5 stacks loaded successfully (100%)
           </p>
 
-          <p className='text-black'>
-            <Flag size={15} fill='black' />
+          <p className="text-black">
+            <Flag size={15} fill="black" />
             Render time: 6ms
           </p>
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
 const TerminalWindow = WindowWrapper(Terminal, "terminal");
 

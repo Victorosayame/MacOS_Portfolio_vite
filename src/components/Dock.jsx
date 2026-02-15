@@ -1,44 +1,74 @@
-//step10 create a Dock component that will serve as the dock for the macOS portfolio website. This component will be responsible for displaying application icons and providing quick access to various sections of the portfolio, similar to the dock functionality found in macOS.
+/**
+ * STEP 10: Create Dock Component - Application Launcher
+ * ========================================================
+ * The Dock is the primary navigation element inspired by macOS dock functionality.
+ * Responsibilities:
+ * - Display application/window icons in a horizontal bar
+ * - Provide quick access to all portfolio sections
+ * - Show active state for open windows
+ * - Handle application open/close toggle logic
+ * - Render tooltips with app names on hover
+ *
+ * Features:
+ * - Interactive icon scaling animation based on mouse proximity
+ * - Real-time window state management via Zustand store
+ * - Disabled state for non-interactive apps
+ * - Accessibility support with aria-labels
+ */
 
 import { dockApps } from "#constants";
 import useWindowStore from "#store/window";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import {  useRef } from "react";
-//step12 implement tooltips for the dock icons using the react-tooltip library. This will enhance the user experience by providing additional information about each application when users hover over the icons in the dock, making it easier for visitors to navigate and understand the purpose of each icon.
+import { useRef } from "react";
+// STEP 12: Implement Tooltips for Dock Icons via react-tooltip
+// Enhances UX by showing app names on hover - helpful for users unfamiliar with icons
 import { Tooltip } from "react-tooltip";
 
 const Dock = () => {
-  //step11 define a new ref hook
+  // STEP 11: Create Reference for Dock Container
+  // Used to target the dock element for GSAP animations and event listeners
   const dockRef = useRef(null);
-  //step15
+  // STEP 15: Access Window Management Store
+  // Get openWindow, closeWindow functions and current windows state to control app lifecycle
   const { openWindow, closeWindow, windows } = useWindowStore();
 
   const toggleApp = (app) => {
-    //step15
-    if(!app.canOpen) return () => {};
+    // STEP 15 (continued): Toggle Window Open/Close State
+    // Check if window exists, then open or close accordingly
+    if (!app.canOpen) return () => {};
     const window = windows[app.id];
 
-    if(!window) {
-      console.error(`Window not found for app: ${app.id}`)
+    if (!window) {
+      console.error(`Window not found for app: ${app.id}`);
       return;
     }
 
-    if(window.isOpen) {
+    if (window.isOpen) {
       closeWindow(app.id);
     } else {
       openWindow(app.id);
     }
 
     console.log(windows);
-  }
+  };
 
-  //step13 use the useGSAP hook to create an animation effect for the dock icons when they are clicked. This will add a dynamic and interactive element to the dock, making it more engaging for users as they interact with the application icons.
+  /**
+   * STEP 13: Animate Dock Icons on Mouse Proximity
+   * ================================================
+   * Creates a dynamic "magnetic" effect for dock icons:
+   * - Icons scale up and shift upward as mouse approaches
+   * - Effect intensity decreases with distance using exponential formula
+   * - Icons smoothly return to normal state on mouse leave
+   * - Uses GSAP for smooth, performant animations
+   *
+   * This magnetic effect mimics macOS dock behavior and improves interactivity
+   */
   useGSAP(() => {
     const dock = dockRef.current;
-    if(!dock) return () => {};
+    if (!dock) return () => {};
 
-    const icons =dock.querySelectorAll(".dock-icon");
+    const icons = dock.querySelectorAll(".dock-icon");
 
     const animateIcons = (mouseX) => {
       const { left } = dock.getBoundingClientRect();
@@ -54,9 +84,9 @@ const Dock = () => {
           y: -15 * intensity,
           duration: 0.2,
           ease: "power1.out",
-        })
-      })
-    }
+        });
+      });
+    };
 
     const handleMouseMove = (e) => {
       const { left } = dock.getBoundingClientRect();
@@ -64,12 +94,15 @@ const Dock = () => {
       animateIcons(e.clientX - left);
     };
 
-    const resetIcons = () => icons.forEach((icon) => gsap.to(icon, {
-      scale: 1,
-      y: 0,
-      duration: 0.3,
-      ease: "power1.out",
-    }))
+    const resetIcons = () =>
+      icons.forEach((icon) =>
+        gsap.to(icon, {
+          scale: 1,
+          y: 0,
+          duration: 0.3,
+          ease: "power1.out",
+        }),
+      );
 
     dock.addEventListener("mousemove", handleMouseMove);
     dock.addEventListener("mouseleave", resetIcons);
@@ -77,25 +110,25 @@ const Dock = () => {
     return () => {
       dock.removeEventListener("mousemove", handleMouseMove);
       dock.removeEventListener("mouseleave", resetIcons);
-    }
+    };
   }, []);
 
-  
   return (
     <section id="dock">
       <div ref={dockRef} className="dock-container">
         {dockApps.map(({ id, name, icon, canOpen }) => (
           <div key={id} className="relative flex justify-center">
-            <button 
-            type="button" 
-            className="dock-icon" 
-            aria-label={name} 
-            data-tooltip-id="dock-tooltip" 
-            data-tooltip-content={name} 
-            data-tooltip-delay-show={150} 
-            disabled={!canOpen} 
-            onClick={() => toggleApp({ id, canOpen })}>
-              <img 
+            <button
+              type="button"
+              className="dock-icon"
+              aria-label={name}
+              data-tooltip-id="dock-tooltip"
+              data-tooltip-content={name}
+              data-tooltip-delay-show={150}
+              disabled={!canOpen}
+              onClick={() => toggleApp({ id, canOpen })}
+            >
+              <img
                 src={`/images/${icon}`}
                 alt={name}
                 loading="lazy"
@@ -108,7 +141,7 @@ const Dock = () => {
         <Tooltip id="dock-tooltip" place="top" className="tooltip" />
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default Dock
+export default Dock;

@@ -1,9 +1,33 @@
-//step22
+/**
+ * STEP 22: Safari Window - Blog/Articles Display
+ * ================================================
+ * Safari-themed window that displays blog posts/articles:
+ * - Mimics macOS Safari browser interface
+ * - Includes browser-like controls (navigation, search, share)
+ * - Shows featured blog posts with images, titles, dates
+ * - Links to external articles that open in new tab
+ *
+ * Features:
+ * - Professional browser chrome with icons
+ * - Responsive grid layout for blog posts
+ * - Click handlers to open URLs in new window
+ * - Search bar and icon buttons (non-functional, decorative)
+ */
 
-import { WindowControls } from "#components"
-import { blogPosts } from "#constants"
-import WindowWrapper from "#hoc/WindowWrapper"
-import { ChevronLeft, ChevronRight, Copy, MoveRight, PanelLeft, Plus, Search, Share, ShieldHalf } from "lucide-react"
+import { WindowControls } from "#components";
+import { blogPosts } from "#constants";
+import WindowWrapper from "#hoc/WindowWrapper";
+import {
+  ChevronLeft,
+  ChevronRight,
+  Copy,
+  MoveRight,
+  PanelLeft,
+  Plus,
+  Search,
+  Share,
+  ShieldHalf,
+} from "lucide-react";
 
 const Safari = () => {
   return (
@@ -22,7 +46,11 @@ const Safari = () => {
           <ShieldHalf className="icon" />
           <div className="search">
             <Search className="icon" />
-            <input type="text" placeholder="Search or enter website name" className="flex-1" />
+            <input
+              type="text"
+              placeholder="Search or enter website name"
+              className="flex-1"
+            />
           </div>
         </div>
 
@@ -37,13 +65,10 @@ const Safari = () => {
         <h2>My Thoughts</h2>
 
         <div className="space-y-8">
-          {blogPosts.map(({ id, image, title, date, link}) => (
+          {blogPosts.map(({ id, image, title, date, link }) => (
             <div key={id} className="blog-post">
               <div className="col-span-2">
-                <img
-                  src={image}
-                  alt={title}
-                 />
+                <img src={image} alt={title} />
               </div>
 
               <div className="content">
@@ -58,10 +83,10 @@ const Safari = () => {
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
 //wrap in our windows wrapper
-const SafariWindow = WindowWrapper(Safari, "safari")
+const SafariWindow = WindowWrapper(Safari, "safari");
 
 export default SafariWindow;

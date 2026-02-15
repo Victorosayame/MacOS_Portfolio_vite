@@ -1,8 +1,19 @@
-//step35
+/**
+ * STEP 35: Contact Window - Social Links Display
+ * ================================================
+ * Displays contact information and social media links:
+ * - Profile image
+ * - Contact introduction text
+ * - Email address
+ * - Social media links with icons (GitHub, LinkedIn, Twitter, etc.)
+ * - Links open in new browser tabs
+ *
+ * Data Source: socials array from constants
+ */
 
-import { WindowControls } from "#components"
-import { socials } from "#constants"
-import WindowWrapper from "#hoc/WindowWrapper"
+import { WindowControls } from "#components";
+import { socials } from "#constants";
+import WindowWrapper from "#hoc/WindowWrapper";
 
 const Contact = () => {
   return (
@@ -13,7 +24,7 @@ const Contact = () => {
       </div>
 
       <div className="p-5 space-y-5">
-        <img 
+        <img
           src="/images/adrian.jpg"
           alt="Name"
           className="w-20 rounded-full"
@@ -25,15 +36,19 @@ const Contact = () => {
 
         <ul>
           {socials.map(({ id, bg, link, icon, text }) => (
-            <li key={id} style={{
-              backgroundColor: bg
-            }}>
-              <a href={link} target="_blank" rel="noopener noreferrer" title={text}>
-                <img 
-                  src={icon}
-                  alt={text}
-                  className="size-5"
-                />
+            <li
+              key={id}
+              style={{
+                backgroundColor: bg,
+              }}
+            >
+              <a
+                href={link}
+                target="_blank"
+                rel="noopener noreferrer"
+                title={text}
+              >
+                <img src={icon} alt={text} className="size-5" />
                 <p>{text}</p>
               </a>
             </li>
@@ -41,9 +56,9 @@ const Contact = () => {
         </ul>
       </div>
     </>
-  )
-}
+  );
+};
 
-const ContactWindow = WindowWrapper(Contact, "contact")
+const ContactWindow = WindowWrapper(Contact, "contact");
 
-export default ContactWindow
+export default ContactWindow;
